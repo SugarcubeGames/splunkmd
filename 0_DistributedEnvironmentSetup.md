@@ -358,7 +358,7 @@ HF|The Heavy Forwarder will act as the colleciton point for apps that pull event
 
 ---
 
-> **NOTE**: Be sure to modift the 'org' portion of app namesto reflect your organization.
+> **NOTE**: Be sure to modify the 'org' portion of app names to reflect your organization.
 ---
 
 ### Setting up the License Manager
