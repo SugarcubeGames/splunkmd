@@ -307,7 +307,7 @@ systemctl enable disable-thp
 reboot
 ```
 
-#### 8. As the Splunk, verify that the ulimts have been set properly after the reboot.
+#### 8. As the splunk user, verify that the ulimts have been set properly after the reboot.
 ```
 su splunk
 
