@@ -1,4 +1,4 @@
-# JT4 / bitsIO Engagement - Composite Notes.
+# Standing up a Distributed Splunk Environment
 
 ## Table of Contents:
 - [Important Links](#important-links)
