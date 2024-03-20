@@ -2,7 +2,7 @@
 
 ## Table of Contents:
 - [Important Links](#important-links)
-- [SROC Environment](#sroc-environment)
+- [Splunk Environment](#splunk-environment)
 - [Standing up a distributed Environment](#standing-up-a-distributed-environment)
     - [Installing Splunk](#installing-splunk)
     - [Fixing Ulimits and THP](#fixing-ulimit-and-thp)
@@ -49,7 +49,7 @@
 
 ## Splunk Environment
 
-The SROC environment consits of the following server, all of which are RHEL 8.
+The splunk environment consits of the following server, all of which are RHEL 8.
 
 Instance Type|Abbreviation|Number|IPs
 -|-|-|-|
@@ -214,7 +214,7 @@ The following steps are for instances running Splunk through SystemD, and should
 vi /etc/systemd/system/Splunkd.service
 ```
 #### 2. Remove the original LimitNOFILE and LIMITPRIO settings.  
-Paste the following where it was removed:
+Paste the following where they were removed:
 ```
 LimitCORE=0
 LimitDATA=infinity
