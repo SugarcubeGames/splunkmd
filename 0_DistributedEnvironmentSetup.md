@@ -666,7 +666,7 @@ whitelist.0 = *
 blacklist.0 = <DPMCLM IP>
 blacklist.1 = <CM IP>
 
-[serverClass:all_splunk_instances:app:org_all_forwarder_ouputs]
+[serverClass:all_splunk_instances:app:org_cluster_forwarder_outputs]
 restartSplunkWeb = 0
 restartSplunkd = 1
 stateOnClient = enabled
@@ -674,10 +674,15 @@ stateOnClient = enabled
 [serverClass:dp_appstodistribute]
 whitelist.0 = <DPMCLM IP>
 
-[serverClass:dp_appstodistribute:app:org_all_forwarder_outputs]
+[serverClass:dp_appstodistribute:app:org_cluster_forwarder_outputs]
 restartSplunkWeb = 0
 restartSplunkd = 0
 stateOnClient = noop
+
+[[serverClass:dp_appstodistribute:app:org_cluster_search_base]
+restartSplunkWeb = 0
+restartSplunkd = 0
+stateOnClient = noop]
 ```
 
 Reload the deployment server
@@ -685,11 +690,11 @@ Reload the deployment server
 /opt/splunk/bin/splunk reload deploy-server
 ```
 
-Once this is reloaded, the clients should show up in **Settings > Forwarder Management**, as should the three server classes and org_all_forwarder_outputs app.  If they do, then the app should be distributed immediately.
+Once this is reloaded, the clients should show up in **Settings > Forwarder Management**, as should the three server classes and org_cluster_forwarder_outputs app.  If they do, then the app should be distributed immediately.
 
 > **NOTE**: Be sure to rename the app in the serverclass.conf file to match the name of your version of the app.
 
-#### 8. Verify that the DP has received the org_all_forwarder_outputs app
+#### 8. Verify that the DP has received the org_cluster_forwarder_outputs app
 
 > Instance: DP/MC/LM
 
@@ -752,7 +757,7 @@ targetUri = <DS IP>:8089
 ```
 > **NOTE**: As with the other deployment client apps, set the phone home interval to 60 seconds during development, but set it to something more reasonable once your environment is set up.
 
-Because the Deployment Server is set up to send the *org_all_forwarder_outputs* app to each splunk client that connectes to it, the HF should receive the app, reboot, and being forwarding internal logs to the indexers.
+Because the Deployment Server is set up to send the *org_cluster_forwarder_outputs* app to each splunk client that connectes to it, the HF should receive the app, reboot, and being forwarding internal logs to the indexers.
 
 ---
 ---
@@ -937,7 +942,7 @@ CM|/opt/splunk/etc/manager-apps
 The following apps need to copied to the */opt/splunk/etc/apps* directory on each machine:
 App|Purpose|Notes
 -|-|-
-org_clustser_forwarder_outputs|Forward the instance's internal logs to the indexers|
+org_cluster_forwarder_outputs|Forward the instance's internal logs to the indexers|
 org_full_license_server|Connect the instances to the License Manager|This is not needed on the DP/MC/LM
 
 Copy these apps to the /opt/splunk/etc/apps directory on each instance and restart Splunk
