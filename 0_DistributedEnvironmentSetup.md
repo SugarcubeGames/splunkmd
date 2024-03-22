@@ -682,7 +682,7 @@ stateOnClient = noop
 
 Reload the deployment server
 ```
-/opt/splunk/bin/splunk reload 
+/opt/splunk/bin/splunk reload deploy-server
 ```
 
 Once this is reloaded, the clients should show up in **Settings > Forwarder Management**, as should the three server classes and org_all_forwarder_outputs app.  If they do, then the app should be distributed immediately.
