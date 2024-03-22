@@ -10,6 +10,7 @@
     - [Instance Explanations and Breakdowns](#instance-explanations-and-breakdowns)
     - [License Manager](#setting-up-the-license-manager)
     - [Indexer Cluster](#setting-up-the-indexer-cluster)
+    - [Search Head Cluster](#setting-up-the-search-head-cluster)
     - [Heavy Forwarder](#setting-up-the-heavy-forwarder)
     - [Deployment Server](#setting-up-the-deployment-server)
     - [Deploy Apps to the Index and Search Head Clusters](#deploy-apps-to-the-indexers-and-search-head-clusters)
@@ -589,7 +590,19 @@ Restart the Search Heads (As root/sudo)
 systemctl restart Splunkd
 ```
 
-#### 4. Connect the Search Heads to the Indexers
+#### 4. Establish the Search Head Cluster by Electing a Captain
+Once all Search Heads are connected, establish the SHC Captain by running the following command on either SH.
+```
+/opt/splunk/bin/splunk bootstrap shcluster-captain -servers_list "<URI>:<management_port>,<URI>:<management_port>,..."
+```
+
+Flag|Purpose|Example
+-|-|-
+-servers_list|comma-separated list of all search heads in the cluster|-servers_list "https:/10.0.4.20:8089,https://10.04.21:8089"
+
+
+
+#### 5. Connect the Search Heads to the Indexers
 > Instance: DS
 >
 > App: [org_cluster_search_base](https://drive.google.com/drive/folders/12YGuQZTANzrm3lfxaUgIH9JcXb3cQhXy)
@@ -611,7 +624,7 @@ multisite = false
 
 > **NOTE**: In this app, the pass4SymmKey value is the Key for the Indexer Cluster, not the Search Head Cluster.  This key authenticates the search heads to the indexers and allows them to search the data on in the indexers.
 
-#### 5. Set up output for the Search Heads
+#### 6. Set up output for the Search Heads
 All instances of Splunk (aside from teh indexers) need to output their internal logs to the Indexers.
 
 > Instance: DS
@@ -635,7 +648,7 @@ server = <IDX1 IP>:9997, <IDX2 IP>:9997, <IDX3 IP>:9997
 >
 > **NOTE 2**: This app will need to be copied to the DPMCLM, CM, and DS.  This will be covered later, but be sure to set it aside for future use.
 
-#### 6. Set up a serverclass for this app
+#### 7. Set up a serverclass for this app
 Before the forwader_outputs app above can be sent to the Search Head Cluster, it has to be deployed to the DP/MC/LM instance
 
 This serverclass should send out to all Splunk instances except the indexers, but due to how the DP and CM are configured, they need to be handled seperately to prevent them trying to be enabled from the wrong directory.  Those instances, as well as the DS itself, will need to have the app manually copied to the */opt/splunk/etc/apps* directory and be restarted.
@@ -676,7 +689,7 @@ Once this is reloaded, the clients should show up in **Settings > Forwarder Mana
 
 > **NOTE**: Be sure to rename the app in the serverclass.conf file to match the name of your version of the app.
 
-#### 7. Verify that the DP has received the org_all_forwarder_outputs app
+#### 8. Verify that the DP has received the org_all_forwarder_outputs app
 
 > Instance: DP/MC/LM
 
@@ -686,7 +699,7 @@ ls -l /opt/splunk/etc/shcluster/apps
 
 If the app is present, move on.  If not, begin diagnosing what's wrong with the DS/serverclass.  The Forwarder MAnagement menu should give oyu some indication about errors.
 
-#### 8. Distribute apps to the Search Heads
+#### 9. Distribute apps to the Search Heads
 Once these apps are complete, they needs to be distributed to the search heads manually.  As the Splunk user:
 
 ```
@@ -701,7 +714,7 @@ cd /opt/splunk/bin
 There is no validation process like with the Indexer Cluster.  If the app fails to distribute and the message something along the lines of "pre-check failed," or "pre-deploy check failed," there is a good chance that there is something wrong with one of your apps.
 
 
-#### 9. Verify that the Search Heads are connected to the Indexers
+#### 10. Verify that the Search Heads are connected to the Indexers
 Once the search heads have had a change to receive the new bundle and restart, check to make sure they are able to search the Indexers.
 
 From one of Search Heads' UI, go to **Apps > Search & Reporting** and run the following search over the last 4 hours of data:
