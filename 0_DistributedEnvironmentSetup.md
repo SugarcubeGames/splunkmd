@@ -713,7 +713,7 @@ su splunk
 
 cd /opt/splunk/bin
 
-./splunk apply shcluster-bundle
+./splunk apply shcluster-bundle -target https://192.168.10.20:8089
 ```
 
 There is no validation process like with the Indexer Cluster.  If the app fails to distribute and the message something along the lines of "pre-check failed," or "pre-deploy check failed," there is a good chance that there is something wrong with one of your apps.
