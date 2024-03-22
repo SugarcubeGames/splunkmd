@@ -598,7 +598,7 @@ Once all Search Heads are connected, establish the SHC Captain by running the fo
 
 Flag|Purpose|Example
 -|-|-
--servers_list|comma-separated list of all search heads in the cluster|-servers_list "https:/10.0.4.20:8089,https://10.04.21:8089"
+-servers_list|comma-separated list of all search heads in the cluster|-servers_list "https:/192.168.10.20:8089,https://192.168.10.21:8089"
 
 
 
