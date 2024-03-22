@@ -657,7 +657,7 @@ This serverclass should send out to all Splunk instances except the indexers, bu
 >
 > App: None
 >
-> Location: */opt/splunk/etc/apps/system/local/*
+> Location: */opt/splunk/etc/system/local/*
 
 > serverclass.conf
 ```
